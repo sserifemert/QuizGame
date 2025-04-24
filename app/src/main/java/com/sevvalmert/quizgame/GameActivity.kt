@@ -3,21 +3,21 @@ package com.sevvalmert.quizgame
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.sevvalmert.quizgame.databinding.ActivityGameBinding
 import com.sevvalmert.quizgame.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class GameActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityGameBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityGameBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -26,15 +26,24 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val startButton = binding.startButton
-        startButton.setOnClickListener {
-            val intent = Intent(this,GameActivity::class.java)
-            intent.putExtra("Timer",true)
-            startActivity(intent)
 
+        val timer = object : CountDownTimer(90000,1000){
+            override fun onTick(p0: Long) {
+                binding.timerView.text ="${p0 / 1000}"
+            }
+
+            override fun onFinish() {
+                val intent = Intent(this@GameActivity,ScoreActivity::class.java)
+                startActivity(intent)
+            }
         }
 
+        val shouldStartTimer = intent.getBooleanExtra("Timer", false)
+
+        if (shouldStartTimer) {
+            timer.start()
+        }
+
+
     }
-
-
 }

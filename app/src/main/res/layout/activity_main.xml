@@ -12,6 +12,7 @@
         android:layout_width="200dp"
         android:layout_height="83dp"
         android:backgroundTint="#F4B400"
+        android:onClick="startButtonClicked"
         android:text="Start"
         android:textAlignment="center"
         android:textColor="#4B2E83"
