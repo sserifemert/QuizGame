@@ -44,6 +44,9 @@ class GameActivity : AppCompatActivity() {
             timer.start()
         }
 
+        val questionNum = 1
+
+
 
     }
 }
