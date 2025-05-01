@@ -64,7 +64,7 @@
     <TextView
         android:id="@+id/questionView"
         android:layout_width="250dp"
-        android:layout_height="140dp"
+        android:layout_height="150dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/question_border"
         android:gravity="center"
@@ -80,14 +80,15 @@
         android:id="@+id/answerButton4"
         android:layout_width="300dp"
         android:layout_height="65dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="28dp"
+        android:backgroundTint="#077daf"
+        android:gravity="left"
         android:text="D. Venus"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:gravity="left"
-        android:backgroundTint="#077daf"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button

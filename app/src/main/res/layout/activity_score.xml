@@ -9,7 +9,7 @@
     tools:context=".ScoreActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/yourScoreView"
         android:layout_width="240sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/pointView"
         android:layout_width="240sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -35,10 +35,10 @@
         android:textSize="100sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/yourScoreView" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/correctView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -50,10 +50,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/pointView" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/incorrectView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -65,26 +65,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/correctView" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/tryAgainButton"
         android:layout_width="220sp"
         android:layout_height="60sp"
         android:layout_marginTop="50dp"
+        android:backgroundTint="#F4B400"
+        android:fontFamily="sans-serif-black"
+        android:onClick="tryAgainClicked"
         android:text="TRY AGAIN"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/incorrectView" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/mainMenuButton"
         android:layout_width="220sp"
         android:layout_height="60sp"
         android:layout_marginTop="15dp"
+        android:backgroundTint="#cc4c08"
+        android:fontFamily="sans-serif-black"
+        android:onClick="mainMenuClicked"
         android:text="MAIN MENU"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/tryAgainButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
