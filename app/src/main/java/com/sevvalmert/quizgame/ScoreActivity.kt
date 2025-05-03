@@ -24,6 +24,16 @@ class ScoreActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        var getCorrectAnswer = intent.getIntExtra("correctAnswer",0)
+        var getinCorrectAnswer = intent.getIntExtra("inCorrectAnswer",0)
+
+        var correctAnswerScore = binding.correctView
+        var inCorrectAnswerScore = binding.incorrectView
+
+        correctAnswerScore.text = "${getCorrectAnswer} Corrects"
+        inCorrectAnswerScore.text = "${getinCorrectAnswer} Incorrects"
+
     }
 
     fun tryAgainClicked(view : View){

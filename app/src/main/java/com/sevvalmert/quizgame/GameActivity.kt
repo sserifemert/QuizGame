@@ -15,6 +15,8 @@ import com.sevvalmert.quizgame.databinding.ActivityMainBinding
 class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
+    var correctAnswerNum : Int? = null
+    var inCorrectAnswerNum : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,8 @@ class GameActivity : AppCompatActivity() {
             insets
         }
 
+        correctAnswerNum = 0
+        inCorrectAnswerNum = 0
 
         val timer = object : CountDownTimer(10000,1000){
             override fun onTick(p0: Long) {
@@ -36,6 +40,8 @@ class GameActivity : AppCompatActivity() {
 
             override fun onFinish() {
                 val intent = Intent(this@GameActivity,ScoreActivity::class.java)
+                intent.putExtra("correctAnswer",correctAnswerNum)
+                intent.putExtra("inCorrectAnswer",inCorrectAnswerNum)
                 startActivity(intent)
             }
         }
@@ -83,10 +89,17 @@ class GameActivity : AppCompatActivity() {
 
         answer1.setOnClickListener {
 
+            answer1.isEnabled = false
+            answer2.isEnabled = false
+            answer3.isEnabled = false
+            answer4.isEnabled = false
+
             if (answer1.text == correctAnswer) {
                 answer1.setBackgroundColor(Color.parseColor("#2cce08"))
+                correctAnswerNum = correctAnswerNum!! + 1
             } else {
                 answer1.setBackgroundColor(Color.parseColor("#e20938"))
+                inCorrectAnswerNum = inCorrectAnswerNum!! + 1
             }
 
             if (answer2.text == correctAnswer) {
@@ -107,10 +120,17 @@ class GameActivity : AppCompatActivity() {
 
         answer2.setOnClickListener {
 
+            answer1.isEnabled = false
+            answer2.isEnabled = false
+            answer3.isEnabled = false
+            answer4.isEnabled = false
+
             if (answer2.text == correctAnswer) {
                 answer2.setBackgroundColor(Color.parseColor("#2cce08"))
+                correctAnswerNum = correctAnswerNum!! + 1
             } else {
                 answer2.setBackgroundColor(Color.parseColor("#e20938"))
+                inCorrectAnswerNum = inCorrectAnswerNum!! + 1
             }
 
             if (answer1.text == correctAnswer) {
@@ -131,10 +151,17 @@ class GameActivity : AppCompatActivity() {
 
         answer3.setOnClickListener {
 
+            answer1.isEnabled = false
+            answer2.isEnabled = false
+            answer3.isEnabled = false
+            answer4.isEnabled = false
+
             if (answer3.text == correctAnswer) {
                 answer3.setBackgroundColor(Color.parseColor("#2cce08"))
+                correctAnswerNum = correctAnswerNum!! + 1
             } else {
                 answer3.setBackgroundColor(Color.parseColor("#e20938"))
+                inCorrectAnswerNum = inCorrectAnswerNum!! + 1
             }
 
             if (answer1.text == correctAnswer) {
@@ -155,10 +182,17 @@ class GameActivity : AppCompatActivity() {
 
         answer4.setOnClickListener {
 
+            answer1.isEnabled = false
+            answer2.isEnabled = false
+            answer3.isEnabled = false
+            answer4.isEnabled = false
+
             if (answer4.text == correctAnswer) {
                 answer4.setBackgroundColor(Color.parseColor("#2cce08"))
+                correctAnswerNum = correctAnswerNum!! + 1
             } else {
                 answer4.setBackgroundColor(Color.parseColor("#e20938"))
+                inCorrectAnswerNum = inCorrectAnswerNum!! + 1
             }
 
             if (answer1.text == correctAnswer) {
@@ -176,5 +210,6 @@ class GameActivity : AppCompatActivity() {
 
             }
         }
+
     }
 }
