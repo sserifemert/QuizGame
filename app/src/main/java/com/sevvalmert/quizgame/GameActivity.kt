@@ -4,19 +4,24 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.View
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.sevvalmert.quizgame.databinding.ActivityGameBinding
-import com.sevvalmert.quizgame.databinding.ActivityMainBinding
 
 class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
+    private var timer: CountDownTimer? = null
     var correctAnswerNum : Int? = null
     var inCorrectAnswerNum : Int? = null
+    var questionNum : Int = 1
+    var score : Int = 0
+    val randomNumberQuestionList = mutableListOf(0,1,2,3,4,5,6,7,8,9)
+    private var hasNavigated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,32 +35,29 @@ class GameActivity : AppCompatActivity() {
             insets
         }
 
-        correctAnswerNum = 0
-        inCorrectAnswerNum = 0
 
-        val timer = object : CountDownTimer(10000,1000){
+        timer?.cancel()
+        val timer = object : CountDownTimer(60000,1000){
             override fun onTick(p0: Long) {
                 binding.timerView.text ="${p0 / 1000}"
             }
 
             override fun onFinish() {
-                val intent = Intent(this@GameActivity,ScoreActivity::class.java)
-                intent.putExtra("correctAnswer",correctAnswerNum)
-                intent.putExtra("inCorrectAnswer",inCorrectAnswerNum)
-                startActivity(intent)
+                navigateToScore()
             }
         }
+        timer?.start()
 
         val shouldStartTimer = intent.getBooleanExtra("Timer", false)
+        val tryAgainTriggered = intent.getBooleanExtra("Again", false)
 
-        if (shouldStartTimer) {
-            timer.start()
-            game()
-        }
-
-        val tryAgainTriggerd = intent.getBooleanExtra("Again",false)
-
-        if(tryAgainTriggerd){
+        if (shouldStartTimer || tryAgainTriggered) {
+            correctAnswerNum = 0
+            inCorrectAnswerNum = 0
+            questionNum = 1
+            score = 0
+            randomNumberQuestionList.clear()
+            randomNumberQuestionList.addAll(0..9)
             timer.start()
             game()
         }
@@ -63,10 +65,31 @@ class GameActivity : AppCompatActivity() {
 
     }
 
+    private fun navigateToScore() {
+        if (hasNavigated) return
+        hasNavigated = true
+        val intent = Intent(this@GameActivity, ScoreActivity::class.java)
+        intent.putExtra("correctAnswer", correctAnswerNum)
+        intent.putExtra("inCorrectAnswer", inCorrectAnswerNum)
+        intent.putExtra("scoreNum",score)
+        startActivity(intent)
+        finish()
+    }
+
     fun game(){
 
-        val randomNumberQuestion = (0..9).random()
-        println(randomNumberQuestion)
+        if((questionNum == 11) || randomNumberQuestionList.isEmpty()){
+            navigateToScore()
+            return
+        }
+
+        var questionStr = binding.questionNumView
+        var scoreStr = binding.pointView
+
+        questionStr.text = "Question ${questionNum}"
+        scoreStr.text = "${score}"
+
+        val randomNumberQuestion = randomNumberQuestionList.random()
 
         val game = QuestionAnswer()
 
@@ -87,6 +110,18 @@ class GameActivity : AppCompatActivity() {
 
         val correctAnswer = game.correctAnswers[randomNumberQuestion]
 
+        randomNumberQuestionList.remove(randomNumberQuestion)
+
+        answer1.isEnabled = true
+        answer2.isEnabled = true
+        answer3.isEnabled = true
+        answer4.isEnabled = true
+
+        answer1.setBackgroundColor(Color.parseColor("#077daf"))
+        answer2.setBackgroundColor(Color.parseColor("#077daf"))
+        answer3.setBackgroundColor(Color.parseColor("#077daf"))
+        answer4.setBackgroundColor(Color.parseColor("#077daf"))
+
         answer1.setOnClickListener {
 
             answer1.isEnabled = false
@@ -94,9 +129,13 @@ class GameActivity : AppCompatActivity() {
             answer3.isEnabled = false
             answer4.isEnabled = false
 
+
+            questionNum++
+
             if (answer1.text == correctAnswer) {
                 answer1.setBackgroundColor(Color.parseColor("#2cce08"))
                 correctAnswerNum = correctAnswerNum!! + 1
+                score += 100
             } else {
                 answer1.setBackgroundColor(Color.parseColor("#e20938"))
                 inCorrectAnswerNum = inCorrectAnswerNum!! + 1
@@ -116,6 +155,14 @@ class GameActivity : AppCompatActivity() {
                 answer4.setBackgroundColor(Color.parseColor("#2cce08"))
 
             }
+
+            Handler(Looper.getMainLooper()).postDelayed(
+                {
+                    game()
+                },
+                2000
+            )
+
         }
 
         answer2.setOnClickListener {
@@ -125,9 +172,12 @@ class GameActivity : AppCompatActivity() {
             answer3.isEnabled = false
             answer4.isEnabled = false
 
+            questionNum++
+
             if (answer2.text == correctAnswer) {
                 answer2.setBackgroundColor(Color.parseColor("#2cce08"))
                 correctAnswerNum = correctAnswerNum!! + 1
+                score += 100
             } else {
                 answer2.setBackgroundColor(Color.parseColor("#e20938"))
                 inCorrectAnswerNum = inCorrectAnswerNum!! + 1
@@ -147,6 +197,14 @@ class GameActivity : AppCompatActivity() {
                 answer4.setBackgroundColor(Color.parseColor("#2cce08"))
 
             }
+
+            Handler(Looper.getMainLooper()).postDelayed(
+                {
+                    game()
+                },
+                2000
+            )
+
         }
 
         answer3.setOnClickListener {
@@ -156,9 +214,13 @@ class GameActivity : AppCompatActivity() {
             answer3.isEnabled = false
             answer4.isEnabled = false
 
+            questionNum++
+
             if (answer3.text == correctAnswer) {
                 answer3.setBackgroundColor(Color.parseColor("#2cce08"))
                 correctAnswerNum = correctAnswerNum!! + 1
+                score += 100
+
             } else {
                 answer3.setBackgroundColor(Color.parseColor("#e20938"))
                 inCorrectAnswerNum = inCorrectAnswerNum!! + 1
@@ -178,6 +240,13 @@ class GameActivity : AppCompatActivity() {
                 answer4.setBackgroundColor(Color.parseColor("#2cce08"))
 
             }
+
+            Handler(Looper.getMainLooper()).postDelayed(
+                {
+                    game()
+                },
+                2000
+            )
         }
 
         answer4.setOnClickListener {
@@ -187,9 +256,13 @@ class GameActivity : AppCompatActivity() {
             answer3.isEnabled = false
             answer4.isEnabled = false
 
+            questionNum++
+
             if (answer4.text == correctAnswer) {
                 answer4.setBackgroundColor(Color.parseColor("#2cce08"))
                 correctAnswerNum = correctAnswerNum!! + 1
+                score += 100
+
             } else {
                 answer4.setBackgroundColor(Color.parseColor("#e20938"))
                 inCorrectAnswerNum = inCorrectAnswerNum!! + 1
@@ -209,7 +282,20 @@ class GameActivity : AppCompatActivity() {
                 answer3.setBackgroundColor(Color.parseColor("#2cce08"))
 
             }
+
+            Handler(Looper.getMainLooper()).postDelayed(
+                {
+                    game()
+                },
+                2000
+            )
+
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timer?.cancel()
     }
 }

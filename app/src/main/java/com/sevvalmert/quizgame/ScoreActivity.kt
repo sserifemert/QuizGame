@@ -27,12 +27,15 @@ class ScoreActivity : AppCompatActivity() {
 
         var getCorrectAnswer = intent.getIntExtra("correctAnswer",0)
         var getinCorrectAnswer = intent.getIntExtra("inCorrectAnswer",0)
+        var getScoreNum = intent.getIntExtra("scoreNum", 0)
 
         var correctAnswerScore = binding.correctView
         var inCorrectAnswerScore = binding.incorrectView
+        var scoreNum = binding.pointView
 
         correctAnswerScore.text = "${getCorrectAnswer} Corrects"
         inCorrectAnswerScore.text = "${getinCorrectAnswer} Incorrects"
+        scoreNum.text = "${getScoreNum}"
 
     }
 
@@ -40,10 +43,12 @@ class ScoreActivity : AppCompatActivity() {
         val intent = Intent(this,GameActivity::class.java)
         intent.putExtra("Again",true)
         startActivity(intent)
+        finish()
     }
 
     fun mainMenuClicked(view : View){
         val intent = Intent(this,MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }
